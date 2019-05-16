@@ -1,0 +1,68 @@
+<!-- cette vue affiche le panier -->
+<div class="bg2 p-2">
+    <div class="rounded bg-light p-2">
+        <h2 class="p-2 text-center">Votre panier:</h2>
+        <hr>
+        <div ng-hide="cartList.length" calss="m-5 p-5">
+            <p class="text-center">Votre Panier est vide</p>
+        </div>
+        <!-- mise en page du panier -->
+        <div ng-show="cartList.length">
+            <div class="row p-2">
+                <div class="col-3 lead">Produit:</div>
+                <div class="col-3 lead">Quantité:</div>
+                <div class="col-3 lead">Prix:</div>
+            </div>
+        </div>
+        <!-- affichage des articles du panier -->
+        <div ng-repeat="x in cartList" class="row p-2">
+            <div class="col-3"><a href="#!product/{{x.id}}" style="color:black;">{{ books[x.id].Nom }}</a></div>
+            <div class="col-3">{{ x.quantite }}</div>
+            <div class="col-3">{{books[x.id].Prix | euroFormat }}</div>
+            <!-- boutons ajouter/retirer -->
+            <div class="col-3">
+                <button ng-click="removeQuantity($index)" class="btn btn-secondary py-0">-</button>
+                <button ng-click="addQuantity($index)" class="btn btn-primary py-0">+</button>
+                <button ng-click="removeArticle($index)" class="btn btn-danger py-0"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div ng-show="cartList.length" class="col-3 offset-6 lead">
+                <p>Total: <span class="font-weight-bold">{{totalPrice() | euroFormat }}</span></p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="#!home" class="btn btn-secondary shadow mx-1">Continuer vos achats</a>
+            <a ng-show="cartList.length" href="" class="btn btn-success shadow mx-1" data-toggle="modal" data-target=".validatedCart">Valider votre panier</a>
+        </div>
+    </div>
+</div>
+
+<!-- modale pour panier validé -->
+<div class="validatedCart modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myHugeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content shadow rounded">
+            <div class="bg2 text-white p-4">
+                <h3 class="text-center">Votre panier a bien été validé.</h3>
+                <p class="text-center">Merci de vos achats.</p>
+            </div>
+            <div class="p-4">
+                <h4 class="text-center">Récapitulatif de votre commande:</h4>
+                <hr class="w-50">
+                <div class="w-75">
+                    <div class="row p-2">
+                        <div class="col-4 lead">Produit:</div>
+                        <div class="col-4 lead">Quantité:</div>
+                        <div class="col-4 lead">Prix:</div>
+                    </div>
+                    <div ng-repeat="x in cartList" class="row p-2">
+                        <div class="col-4"><a href="#!product/{{x.id}}" style="color:black;">{{ books[x.id].Nom }}</a></div>
+                        <div class="col-4">{{ x.quantite }}</div>
+                        <div class="col-4">{{books[x.id].Prix | euroFormat }}</div>
+                    </div>
+                </div>
+                <p class="text-right lead mt-5">Prix total: <span class="font-weight-bold">{{totalPrice() | euroFormat }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
